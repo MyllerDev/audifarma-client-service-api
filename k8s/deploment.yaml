@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: client-service
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: client-service
+
+  template:
+    metadata:
+      labels:
+        app: client-service
+
+    spec:
+      containers:
+        - name: client-service
+
+          image: client-service:latest
+
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 8080
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+
+            initialDelaySeconds: 30
+            periodSeconds: 10
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+
+            initialDelaySeconds: 10
+            periodSeconds: 5
