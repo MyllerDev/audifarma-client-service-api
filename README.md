@@ -164,7 +164,7 @@ Antes de ejecutar el proyecto, asegúrese de tener instalado:
 ## 1️⃣ Clonar el proyecto
 
 ```bash
-git clone <repository-url>
+[git clone <repository-url>](https://github.com/MyllerDev/audifarma-client-service-api.git)
 ```
 
 ## 2️⃣ Entrar al proyecto
