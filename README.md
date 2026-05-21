@@ -189,12 +189,12 @@ mvn spring-boot:run
 
 # 🌐 URLs Disponibles
 
-| Servicio        | URL                                           |
-| --------------- | --------------------------------------------- |
+| Servicio        | URL                                        |
+| --------------- | ------------------------------------------ |
 | 📘 Swagger UI   | `http://localhost:8080/swagger-ui/index.html` |
-| 📄 OpenAPI JSON | `http://localhost:8080/v3/api-docs`           |
-| ❤️ Health Check | `http://localhost:8080/actuator/health`       |
-| 🗄️ H2 Console  | `http://localhost:8080/h2-console`            |
+| 📄 OpenAPI JSON | `http://localhost:8080/api-docs`           |
+| ❤️ Health Check | `http://localhost:8080/actuator/health`    |
+| 🗄️ H2 Console  | `http://localhost:8080/h2-console`         |
 
 ---
 
