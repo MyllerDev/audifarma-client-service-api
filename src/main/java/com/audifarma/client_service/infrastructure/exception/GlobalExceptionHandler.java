@@ -2,24 +2,39 @@ package com.audifarma.client_service.infrastructure.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
-import java.util.HashMap;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleNotFoundException(
+            ResourceNotFoundException ex
+    ) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", 404);
+        response.put("error", "Not Found");
+        response.put("message", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Object>> handleValidationErrors(
+    public ResponseEntity<Map<String, Object>> handleValidationException(
             MethodArgumentNotValidException ex
     ) {
 
-        Map<String, String> errors = new HashMap<>();
+        Map<String, Object> errors = new HashMap<>();
 
         ex.getBindingResult()
                 .getFieldErrors()
@@ -27,12 +42,22 @@ public class GlobalExceptionHandler {
                         errors.put(error.getField(), error.getDefaultMessage())
                 );
 
-        return ResponseEntity.badRequest().body(
-                Map.of(
-                        "timestamp", LocalDateTime.now(),
-                        "status", 400,
-                        "errors", errors
-                )
-        );
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleGeneralException(
+            Exception ex
+    ) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", 500);
+        response.put("error", "Internal Server Error");
+        response.put("message", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(response);
     }
 }
